@@ -4,6 +4,8 @@ const nodeResolve = require("@rollup/plugin-node-resolve")
 const babel = require("@rollup/plugin-babel")
 const terser = require("@rollup/plugin-terser");
 const postcss = require("rollup-plugin-postcss")
+const vuePlugin = require("rollup-plugin-vue")
+const replace = require('rollup-plugin-replace')
 
 module.exports = {
   // 入口
@@ -22,6 +24,10 @@ module.exports = {
     nodeResolve(),
     babel({ babelHelpers: "bundled",exclude: 'node_modules/**'}),
     terser(),
-    postcss()
+    postcss(),
+    vuePlugin(),
+    replace({
+      "process.env.NODE_ENV": JSON.stringify("production"),
+    })
   ]
 };
