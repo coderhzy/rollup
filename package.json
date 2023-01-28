@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c",
+    "serve": "rollup -v -w",
+    "serve:dev": "rollup -c --environment NODE_ENV:development",
+    "serve:pro": "rollup -c --environment NODE_ENV:production"
   },
   "keywords": [],
   "author": "",

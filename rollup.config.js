@@ -9,6 +9,33 @@ const replace = require('@rollup/plugin-replace')
 const serve = require('rollup-plugin-serve')
 const liveReload = require('rollup-plugin-livereload')
 
+const isPro = process.env.NODE_ENV === 'production'
+const plugins = [
+    commonjs(),
+    nodeResolve(),
+    babel({ babelHelpers: "bundled",exclude: 'node_modules/**'}),
+    postcss(),
+    vuePlugin(),
+    replace({
+      preventAssignment: true,
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+]
+
+if(isPro) {
+  plugins.push(terser())
+}else {
+  const extraPlugin = [
+    serve({
+      port: 8080,
+      open: true,
+      contentBase: '.',
+    }),
+    liveReload()
+  ]
+  plugins.push(...extraPlugin)
+}
+
 module.exports = {
   // 入口
   input: "./lib/index.js",
@@ -21,22 +48,5 @@ module.exports = {
       lodash: "_",
     }
   },
-  plugins: [
-    commonjs(),
-    nodeResolve(),
-    babel({ babelHelpers: "bundled",exclude: 'node_modules/**'}),
-    terser(),
-    postcss(),
-    vuePlugin(),
-    replace({
-      preventAssignment: true,
-      'process.env.NODE_ENV': JSON.stringify('development'),
-    }),
-    serve({
-      port: 8080,
-      open: true,
-      contentBase: '.',
-    }),
-    liveReload(),
-  ]
+  plugins: plugins
 };
