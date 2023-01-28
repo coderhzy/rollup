@@ -29,7 +29,8 @@ module.exports = {
     postcss(),
     vuePlugin(),
     replace({
-      "process.env.NODE_ENV": JSON.stringify("production"),
+      preventAssignment: true,
+      'process.env.NODE_ENV': JSON.stringify('development'),
     }),
     serve({
       port: 8080,
