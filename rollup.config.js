@@ -5,7 +5,9 @@ const babel = require("@rollup/plugin-babel")
 const terser = require("@rollup/plugin-terser");
 const postcss = require("rollup-plugin-postcss")
 const vuePlugin = require("rollup-plugin-vue")
-const replace = require('rollup-plugin-replace')
+const replace = require('@rollup/plugin-replace')
+const serve = require('rollup-plugin-serve')
+const liveReload = require('rollup-plugin-livereload')
 
 module.exports = {
   // 入口
@@ -28,6 +30,12 @@ module.exports = {
     vuePlugin(),
     replace({
       "process.env.NODE_ENV": JSON.stringify("production"),
-    })
+    }),
+    serve({
+      port: 8080,
+      open: true,
+      contentBase: '.',
+    }),
+    liveReload(),
   ]
 };
