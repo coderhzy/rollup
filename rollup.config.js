@@ -1,25 +1,22 @@
+// 默认 lodash 没有被打包, 是因为它使用commonjs规范, 而rollup默认使用es module规范, 所以需要配置
+const commonjs = require("@rollup/plugin-commonjs");
+const nodeResolve = require("@rollup/plugin-node-resolve")
+
 module.exports = {
   // 入口
   input: "./lib/index.js",
   // 出口
-  output: [
-    {
-        format: "umd",
-        name: "myUtils",
-        file: "./build/bundle.umd.js"
-    },
-    {
-        format: 'amd',
-        file: './build/bundle.amd.js'
-    },
-    {
-        format: 'cjs',
-        file: './build/bundle.cjs.js'
-    },
-    {
-        format: 'iife',
-        name:"myUtils",
-        file: './build/bundle.browser.js'
+  output: {
+    format: "umd",
+    name: "myUtils",
+    file: "./build/bundle.umd.js",
+    globals: {
+      lodash: "_",
     }
+  },
+  external: ["lodash"],
+  plugins: [
+    commonjs(),
+    nodeResolve()
   ]
 };
