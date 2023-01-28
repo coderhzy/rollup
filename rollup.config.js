@@ -3,6 +3,7 @@ const commonjs = require("@rollup/plugin-commonjs");
 const nodeResolve = require("@rollup/plugin-node-resolve")
 const babel = require("@rollup/plugin-babel")
 const terser = require("@rollup/plugin-terser");
+const postcss = require("rollup-plugin-postcss")
 
 module.exports = {
   // 入口
@@ -16,11 +17,11 @@ module.exports = {
       lodash: "_",
     }
   },
-  external: ["lodash"],
   plugins: [
     commonjs(),
     nodeResolve(),
     babel({ babelHelpers: "bundled",exclude: 'node_modules/**'}),
-    terser()
+    terser(),
+    postcss()
   ]
 };
